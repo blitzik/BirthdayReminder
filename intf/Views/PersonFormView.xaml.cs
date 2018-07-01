@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BirthdayReminder
+namespace intf.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for PersonFormView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class PersonFormView : UserControl
     {
-        public MainWindow()
+        public PersonFormView()
         {
             InitializeComponent();
         }
