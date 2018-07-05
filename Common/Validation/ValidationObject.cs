@@ -12,11 +12,71 @@ namespace Common.Validation
     public class ValidationObject : IValidationObject
     {
         private Dictionary<string, List<IValidationMessage>> _errors;
+        public Dictionary<string, List<IValidationMessage>> Errors
+        {
+            get { return _errors; }
+        }
+
+
+        private Dictionary<string, IRuleSet> _ruleSets;
+        public Dictionary<string, IRuleSet> RuleSets
+        {
+            get { return _ruleSets; }
+        }
 
 
         public ValidationObject()
         {
+            _ruleSets = new Dictionary<string, IRuleSet>();
             _errors = new Dictionary<string, List<IValidationMessage>>();
+        }
+
+
+        public IDelegateRuleSet<P> CreateRuleSet<P>(string[] propertyNames)
+        {
+            if (propertyNames.Count() < 1) {
+                throw new ArgumentException("Argument \"propertyNames\" must contain at least one item");
+            }
+
+            IDelegateRuleSet<P> ruleSet = new RuleSet<P>();
+            foreach (string propertyName in propertyNames) {
+                if (!RuleSets.ContainsKey(propertyName)) {
+                    RuleSets.Add(propertyName, ruleSet);
+                }
+            }
+
+            return ruleSet;
+        }
+
+
+        public IDelegateRuleSet<P> CreateRuleSet<P>(string propertyName)
+        {
+            return CreateRuleSet<P>(new string[] { propertyName });
+        }
+
+
+        public bool Check<T>(string propertyName, T obj)
+        {
+            if (string.IsNullOrEmpty(propertyName)) {
+                throw new ArgumentException("Argument \"propertyName\" cannot be NULL");
+            }
+
+            if (!RuleSets.ContainsKey(propertyName)) { // todo
+                return true;
+            }
+
+            if (Errors.ContainsKey(propertyName)) {
+                Errors.Remove(propertyName);
+            }
+
+            IDelegateRuleSet<T> ruleSet = (IDelegateRuleSet<T>)RuleSets[propertyName];
+            if (!ruleSet.Check(obj)) {
+                Errors.Add(propertyName, ruleSet.Errors);
+                RaiseErrorsChanged(propertyName);
+                return false;
+            }
+
+            return true;
         }
 
 
@@ -32,36 +92,17 @@ namespace Common.Validation
 
         public bool HasErrors
         {
-            get { return _errors.Count > 0; }
+            get { return Errors.Count > 0; }
         }
 
 
         public IEnumerable GetErrors(string propertyName)
         {
-            if (string.IsNullOrEmpty(propertyName) || !_errors.ContainsKey(propertyName)) {
-                return null;
+            if (string.IsNullOrEmpty(propertyName)) {
+                return Errors.Values;
             }
 
-            return _errors[propertyName];
-        }
-
-
-        public void AddMessage(string propertyName, string errorMessage, Severity severity = Severity.ERROR)
-        {
-            if (!_errors.ContainsKey(propertyName)) {
-                _errors[propertyName] = new List<IValidationMessage>();
-            }
-
-            _errors[propertyName].Add(new ValidationMessage(errorMessage, severity));
-            RaiseErrorsChanged(propertyName);
-        }
-
-
-        public void ClearMessages(string propertyName)
-        {
-            if (_errors.ContainsKey(propertyName)) {
-                _errors.Remove(propertyName);
-            }
+            return Errors[propertyName];
         }
     }
 }

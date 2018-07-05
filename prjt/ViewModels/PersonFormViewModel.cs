@@ -37,15 +37,7 @@ namespace prjt.ViewModels
             get { return _firstName; }
             set
             {
-                ClearMessages();
-                if (string.IsNullOrEmpty(value)) {
-                    AddMessage("Vyplňte prosím jméno osoby.", Severity.INFO);
-                    _firstName = null;
-
-                } else {
-                    _firstName = value;
-                }
-                NotifyOfPropertyChange(() => FirstName);
+                Set(ref _firstName, value);
                 SaveRecordCommand.RaiseCanExecuteChanged();
             }
         }
@@ -57,15 +49,7 @@ namespace prjt.ViewModels
             get { return _lastName; }
             set
             {
-                ClearMessages();
-                if (string.IsNullOrEmpty(value)) {
-                    AddMessage("Vyplňte prosím příjmení osoby.", Severity.INFO);
-                    _lastName = null;
-
-                } else {
-                    _lastName = value;
-                }
-                NotifyOfPropertyChange(() => LastName);
+                Set(ref _lastName, value);
                 SaveRecordCommand.RaiseCanExecuteChanged();
             }
         }
@@ -89,8 +73,7 @@ namespace prjt.ViewModels
             get { return _selectedDate; }
             set
             {
-                _selectedDate = value;
-                NotifyOfPropertyChange(() => SelectedDate);
+                Set(ref _selectedDate, value);
                 SaveRecordCommand.RaiseCanExecuteChanged();
             }
         }
@@ -117,7 +100,7 @@ namespace prjt.ViewModels
                 if (_saveRecordCommand == null) {
                     _saveRecordCommand = new DelegateCommand<object>(
                         p => SaveRecord(),
-                        p => !string.IsNullOrEmpty(FirstName) && !string.IsNullOrEmpty(LastName) && _selectedDate != null
+                        p => Validation.Check<string>(nameof(FirstName), FirstName) && Validation.Check<string>(nameof(LastName), LastName) && SelectedDate != null
                     );
                 }
                 return _saveRecordCommand;
@@ -145,6 +128,19 @@ namespace prjt.ViewModels
                 Note = null;
                 SelectedDate = DateTime.Today;
             }
+        }
+
+
+        protected override void InitializeValidation()
+        {
+            //Validation.CreateRuleSet<string>(new string[] { nameof(FirstName), nameof(LastName) })
+            //          .AddRule("Vyplňte prosím toto pole", Severity.INFO, x => { return string.IsNullOrEmpty(x); });
+
+            Validation.CreateRuleSet<string>(nameof(FirstName))
+                      .AddRule("Vyplňte prosím pole Jméno", Severity.INFO, x => { return string.IsNullOrEmpty(x); });
+
+            Validation.CreateRuleSet<string>(nameof(LastName))
+                      .AddRule("Vyplňte prosím pole Příjmení", Severity.INFO, x => { return string.IsNullOrEmpty(x); });
         }
 
 

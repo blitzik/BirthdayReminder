@@ -10,10 +10,14 @@ namespace Common.Validation
 {
     public interface IValidationObject : INotifyDataErrorInfo
     {
+        Dictionary<string, IRuleSet> RuleSets { get; }
+        Dictionary<string, List<IValidationMessage>> Errors { get; }
+
+        IDelegateRuleSet<P> CreateRuleSet<P>(string propertyName);
+        IDelegateRuleSet<P> CreateRuleSet<P>(string[] propertyNames);
+
+        bool Check<T>(string propertyName, T obj);
+
         void RaiseErrorsChanged(string propertyName);
-
-        void AddMessage(string propertyName, string errorMessage, Severity severity = Severity.ERROR);
-
-        void ClearMessages(string propertyName);
     }
 }

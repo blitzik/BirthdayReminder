@@ -31,7 +31,29 @@ namespace prjt.ViewModels
         }
 
 
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
+
+            InitializeValidation();
+        }
+
+
+        // ----- INotifyPropertyChanged
+
+
+        public override bool Set<T>(ref T oldValue, T newValue, [CallerMemberName] string propertyName = null)
+        {
+            Validation.Check(propertyName, newValue);
+
+            return base.Set(ref oldValue, newValue, propertyName);
+        }
+
+
         // ----- INotifyDataErrorInfo
+
+
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
 
         // property injection
@@ -43,10 +65,8 @@ namespace prjt.ViewModels
         }
 
 
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
-        public void RaiseErrorsChanged(string propertyName)
+        protected virtual void InitializeValidation()
         {
-            Validation.RaiseErrorsChanged(propertyName);
         }
 
 
@@ -58,19 +78,17 @@ namespace prjt.ViewModels
 
         public IEnumerable GetErrors(string propertyName)
         {
-            return Validation.GetErrors(propertyName);
+            if (string.IsNullOrEmpty(propertyName)) {
+                // todo
+                return new List<string>();
+            }
+
+            if (!Validation.Errors.ContainsKey(propertyName)) {
+                return new List<string>();
+            }
+
+            return Validation.Errors[propertyName];
         }
 
-
-        protected void AddMessage(string errorMessage, Severity severity = Severity.ERROR, [CallerMemberName] string propertyName = null)
-        {
-            Validation.AddMessage(propertyName, errorMessage, severity);
-        }
-
-
-        protected void ClearMessages([CallerMemberName] string propertyName = null)
-        {
-            Validation.ClearMessages(propertyName);
-        }
     }
 }
