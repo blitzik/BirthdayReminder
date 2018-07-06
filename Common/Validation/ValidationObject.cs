@@ -61,7 +61,7 @@ namespace Common.Validation
                 throw new ArgumentException("Argument \"propertyName\" cannot be NULL");
             }
 
-            if (!RuleSets.ContainsKey(propertyName)) { // todo
+            if (!RuleSets.ContainsKey(propertyName)) {
                 return true;
             }
 

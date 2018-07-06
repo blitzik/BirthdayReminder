@@ -45,6 +45,7 @@ namespace prjt.ViewModels
         public override bool Set<T>(ref T oldValue, T newValue, [CallerMemberName] string propertyName = null)
         {
             Validation.Check(propertyName, newValue);
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
 
             return base.Set(ref oldValue, newValue, propertyName);
         }
@@ -79,7 +80,6 @@ namespace prjt.ViewModels
         public IEnumerable GetErrors(string propertyName)
         {
             if (string.IsNullOrEmpty(propertyName)) {
-                // todo
                 return new List<string>();
             }
 

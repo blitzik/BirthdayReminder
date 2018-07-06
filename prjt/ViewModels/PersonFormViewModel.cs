@@ -61,8 +61,7 @@ namespace prjt.ViewModels
             get { return _note; }
             set
             {
-                _note = value;
-                NotifyOfPropertyChange(() => Note);
+                Set(ref _note, value);
             }
         }
 
@@ -137,10 +136,12 @@ namespace prjt.ViewModels
             //          .AddRule("Vyplňte prosím toto pole", Severity.INFO, x => { return string.IsNullOrEmpty(x); });
 
             Validation.CreateRuleSet<string>(nameof(FirstName))
-                      .AddRule("Vyplňte prosím pole Jméno", Severity.INFO, x => { return string.IsNullOrEmpty(x); });
+                      .AddRule("Vyplňte prosím pole Jméno", Severity.INFO, x => { return string.IsNullOrEmpty(x); })
+                      .AddRule("Jméno musí obsahovat alespoň 3 znaky", Severity.INFO, x => { return !string.IsNullOrEmpty(x) && x.Length < 3; });
 
             Validation.CreateRuleSet<string>(nameof(LastName))
-                      .AddRule("Vyplňte prosím pole Příjmení", Severity.INFO, x => { return string.IsNullOrEmpty(x); });
+                      .AddRule("Vyplňte prosím pole Příjmení", Severity.INFO, x => { return string.IsNullOrEmpty(x); })
+                      .AddRule("Příjmení musí obsahovat alespoň 3 znaky", Severity.INFO, x => { return !string.IsNullOrEmpty(x) && x.Length < 3; });
         }
 
 
