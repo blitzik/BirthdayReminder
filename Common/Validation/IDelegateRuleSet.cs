@@ -8,7 +8,6 @@ namespace Common.Validation
 {
     public interface IDelegateRuleSet<T> : IRuleSet
     {
-        IDelegateRuleSet<T> AddRule(string message, Severity severity, Func<T, bool> action);
         bool Check(T obj);
     }
 }

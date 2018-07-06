@@ -24,9 +24,16 @@ namespace Common.Validation
         }
 
 
-        public IDelegateRuleSet<T> AddRule(string message, Severity severity, Func<T, bool> action)
+        public RuleSet<T> AddRule(string message, Severity severity, Func<T, bool> action)
         {
             _rules.Add(new Rule<T>(message, severity, action));
+            return this;
+        }
+
+
+        public RuleSet<T> AddRule(IRule<T> rule)
+        {
+            _rules.Add(rule);
             return this;
         }
 

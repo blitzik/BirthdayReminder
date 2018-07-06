@@ -99,7 +99,7 @@ namespace prjt.ViewModels
                 if (_saveRecordCommand == null) {
                     _saveRecordCommand = new DelegateCommand<object>(
                         p => SaveRecord(),
-                        p => Validation.Check<string>(nameof(FirstName), FirstName) && Validation.Check<string>(nameof(LastName), LastName) && SelectedDate != null
+                        p => Validation.Check(nameof(FirstName), FirstName) && Validation.Check(nameof(LastName), LastName) && SelectedDate != null
                     );
                 }
                 return _saveRecordCommand;
@@ -132,16 +132,22 @@ namespace prjt.ViewModels
 
         protected override void InitializeValidation()
         {
-            //Validation.CreateRuleSet<string>(new string[] { nameof(FirstName), nameof(LastName) })
-            //          .AddRule("Vyplňte prosím toto pole", Severity.INFO, x => { return string.IsNullOrEmpty(x); });
+            Func<string, bool> isNull = new Func<string, bool>(x => { return string.IsNullOrEmpty(x); });
+            Func<string, bool> isShorter = new Func<string, bool>(x => { return !isNull(x) && x.Length < 3; });
 
-            Validation.CreateRuleSet<string>(nameof(FirstName))
-                      .AddRule("Vyplňte prosím pole Jméno", Severity.INFO, x => { return string.IsNullOrEmpty(x); })
-                      .AddRule("Jméno musí obsahovat alespoň 3 znaky", Severity.INFO, x => { return !string.IsNullOrEmpty(x) && x.Length < 3; });
+            Validation.AddRuleSet(
+                nameof(FirstName),
+                new RuleSet<string>()
+                    .AddRule("Vyplňte prosím pole Jméno", Severity.INFO, x => { return isNull(x); })
+                    .AddRule("Jméno musí obsahovat alespoň 3 znaky", Severity.INFO, x => { return isShorter(x); })
+            );
 
-            Validation.CreateRuleSet<string>(nameof(LastName))
-                      .AddRule("Vyplňte prosím pole Příjmení", Severity.INFO, x => { return string.IsNullOrEmpty(x); })
-                      .AddRule("Příjmení musí obsahovat alespoň 3 znaky", Severity.INFO, x => { return !string.IsNullOrEmpty(x) && x.Length < 3; });
+            Validation.AddRuleSet(
+                nameof(LastName),
+                new RuleSet<string>()
+                    .AddRule("Vyplňte prosím pole Příjmení", Severity.INFO, x => { return isNull(x); })
+                    .AddRule("Příjmení musí obsahovat alespoň 3 znaky", Severity.INFO, x => { return isShorter(x); })
+            );
         }
 
 

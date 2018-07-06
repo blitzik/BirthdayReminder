@@ -13,8 +13,7 @@ namespace Common.Validation
         Dictionary<string, IRuleSet> RuleSets { get; }
         Dictionary<string, List<IValidationMessage>> Errors { get; }
 
-        IDelegateRuleSet<P> CreateRuleSet<P>(string propertyName);
-        IDelegateRuleSet<P> CreateRuleSet<P>(string[] propertyNames);
+        void AddRuleSet<P>(string propertyName, IDelegateRuleSet<P> ruleSet);
 
         bool Check<T>(string propertyName, T obj, bool collectErrors = false);
 

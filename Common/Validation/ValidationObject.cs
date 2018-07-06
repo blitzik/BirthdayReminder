@@ -32,26 +32,17 @@ namespace Common.Validation
         }
 
 
-        public IDelegateRuleSet<P> CreateRuleSet<P>(string[] propertyNames)
+        public void AddRuleSet<P>(string propertyName, IDelegateRuleSet<P> ruleSet)
         {
-            if (propertyNames.Count() < 1) {
-                throw new ArgumentException("Argument \"propertyNames\" must contain at least one item");
+            if (string.IsNullOrEmpty(propertyName)) {
+                throw new Exception("Property name cannot be empty string or null");
             }
 
-            IDelegateRuleSet<P> ruleSet = new RuleSet<P>();
-            foreach (string propertyName in propertyNames) {
-                if (!RuleSets.ContainsKey(propertyName)) {
-                    RuleSets.Add(propertyName, ruleSet);
-                }
+            if (RuleSets.ContainsKey(propertyName)) {
+                throw new Exception(string.Format("RuleSet already exists for property \"{0}\"", propertyName));
             }
 
-            return ruleSet;
-        }
-
-
-        public IDelegateRuleSet<P> CreateRuleSet<P>(string propertyName)
-        {
-            return CreateRuleSet<P>(new string[] { propertyName });
+            RuleSets.Add(propertyName, ruleSet);
         }
 
 
