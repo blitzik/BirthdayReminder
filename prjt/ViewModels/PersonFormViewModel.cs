@@ -133,20 +133,15 @@ namespace prjt.ViewModels
         protected override void InitializeValidation()
         {
             Func<string, bool> isNull = new Func<string, bool>(x => { return string.IsNullOrEmpty(x); });
-            Func<string, bool> isShorter = new Func<string, bool>(x => { return !isNull(x) && x.Length < 3; });
 
             Validation.AddRuleSet(
                 nameof(FirstName),
-                new RuleSet<string>()
-                    .AddRule("Vyplňte prosím pole Jméno", Severity.INFO, x => { return isNull(x); })
-                    .AddRule("Jméno musí obsahovat alespoň 3 znaky", Severity.INFO, x => { return isShorter(x); })
+                new RuleSet<string>().AddRule("Vyplňte prosím pole Jméno", Severity.INFO, x => { return isNull(x); })
             );
 
             Validation.AddRuleSet(
                 nameof(LastName),
-                new RuleSet<string>()
-                    .AddRule("Vyplňte prosím pole Příjmení", Severity.INFO, x => { return isNull(x); })
-                    .AddRule("Příjmení musí obsahovat alespoň 3 znaky", Severity.INFO, x => { return isShorter(x); })
+                new RuleSet<string>().AddRule("Vyplňte prosím pole Příjmení", Severity.INFO, x => { return isNull(x); })
             );
         }
 
