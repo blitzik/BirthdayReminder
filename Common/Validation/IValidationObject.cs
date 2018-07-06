@@ -16,7 +16,7 @@ namespace Common.Validation
         IDelegateRuleSet<P> CreateRuleSet<P>(string propertyName);
         IDelegateRuleSet<P> CreateRuleSet<P>(string[] propertyNames);
 
-        bool Check<T>(string propertyName, T obj);
+        bool Check<T>(string propertyName, T obj, bool collectErrors = false);
 
         void RaiseErrorsChanged(string propertyName);
     }

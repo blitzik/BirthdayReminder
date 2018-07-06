@@ -55,7 +55,7 @@ namespace Common.Validation
         }
 
 
-        public bool Check<T>(string propertyName, T obj)
+        public bool Check<T>(string propertyName, T obj, bool collectErrors = false)
         {
             if (string.IsNullOrEmpty(propertyName)) {
                 throw new ArgumentException("Argument \"propertyName\" cannot be NULL");
@@ -65,14 +65,16 @@ namespace Common.Validation
                 return true;
             }
 
-            if (Errors.ContainsKey(propertyName)) {
+            if (collectErrors == true && Errors.ContainsKey(propertyName)) {
                 Errors.Remove(propertyName);
             }
 
             IDelegateRuleSet<T> ruleSet = (IDelegateRuleSet<T>)RuleSets[propertyName];
             if (!ruleSet.Check(obj)) {
-                Errors.Add(propertyName, ruleSet.Errors);
-                RaiseErrorsChanged(propertyName);
+                if (collectErrors == true) {
+                    Errors.Add(propertyName, ruleSet.Errors);
+                    RaiseErrorsChanged(propertyName);
+                }
                 return false;
             }
 

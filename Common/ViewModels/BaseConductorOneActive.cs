@@ -70,7 +70,7 @@ namespace prjt.ViewModels
 
         public override bool Set<T>(ref T oldValue, T newValue, [CallerMemberName] string propertyName = null)
         {
-            Validation.Check(propertyName, newValue);
+            Validation.Check(propertyName, newValue, true);
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
 
             return base.Set(ref oldValue, newValue, propertyName);
