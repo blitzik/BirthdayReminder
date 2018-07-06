@@ -15,7 +15,7 @@
         <Path x:Key="InfoIcon" Fill="#FFF" Data="M255,0C114.75,0,0,114.75,0,255s114.75,255,255,255s255-114.75,255-255S395.25,0,255,0z M280.5,382.5h-51v-153h51V382.5z M280.5,178.5h-51v-51h51V178.5z" />
     </UserControl.Resources>
 
-    <ItemsControl Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0 20 0 0" ItemsSource="{Binding FlashMessagesManager.FlashMessages}">
+    <ItemsControl VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0 20 0 0" ItemsSource="{Binding FlashMessagesManager.FlashMessages}">
         <ItemsControl.ItemContainerStyle>
             <Style TargetType="{x:Type FrameworkElement}">
                 <Setter Property="LayoutTransform">
@@ -70,44 +70,64 @@
                     <ContentControl Content="{Binding Path=Type}">
                         <ContentControl.Resources>
                             <DataTemplate x:Key="notifINFO">
-                                <StackPanel Orientation="Horizontal">
-                                    <Rectangle Width="17" Height="17" Fill="White" Margin="0 0 10 0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20" />
+                                        <ColumnDefinition Width="10" />
+                                        <ColumnDefinition Width="*" MaxWidth="275" />
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Grid.Column="0" VerticalAlignment="Top" Width="20" Height="20" Fill="White">
                                         <Rectangle.OpacityMask>
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource InfoIcon}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <TextBlock Text="{Binding ElementName=ItemBorder, Path=DataContext.Message}" TextAlignment="Right" TextWrapping="Wrap" Foreground="#FFF" FontSize="13" />
-                                </StackPanel>
+                                    <TextBlock Grid.Column="2" Text="{Binding ElementName=ItemBorder, Path=DataContext.Message}" TextAlignment="Right" TextWrapping="Wrap" Foreground="#FFF" FontSize="14" />
+                                </Grid>                                
                             </DataTemplate>
                             <DataTemplate x:Key="notifSUCCESS">
-                                <StackPanel Orientation="Horizontal">
-                                    <Rectangle Width="17" Height="17" Fill="White" Margin="0 0 10 0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20" />
+                                        <ColumnDefinition Width="10" />
+                                        <ColumnDefinition Width="*" MaxWidth="275" />
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Grid.Column="0" VerticalAlignment="Top" Width="20" Height="20" Fill="White">
                                         <Rectangle.OpacityMask>
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource SuccessIcon}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <TextBlock Text="{Binding ElementName=ItemBorder, Path=DataContext.Message}" TextAlignment="Right" TextWrapping="Wrap" Foreground="#FFF" FontSize="13" />
-                                </StackPanel>
+                                    <TextBlock Grid.Column="2" Text="{Binding ElementName=ItemBorder, Path=DataContext.Message}" TextAlignment="Right" TextWrapping="Wrap" Foreground="#FFF" FontSize="14" />
+                                </Grid>
                             </DataTemplate>
                             <DataTemplate x:Key="notifWARNING">
-                                <StackPanel Orientation="Horizontal">
-                                    <Rectangle Width="17" Height="17" Fill="White" Margin="0 0 10 0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20" />
+                                        <ColumnDefinition Width="10" />
+                                        <ColumnDefinition Width="*" MaxWidth="275" />
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Grid.Column="0" VerticalAlignment="Top" Width="20" Height="20" Fill="White">
                                         <Rectangle.OpacityMask>
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource WarningIcon}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <TextBlock Text="{Binding ElementName=ItemBorder, Path=DataContext.Message}" TextAlignment="Right" TextWrapping="Wrap" Foreground="#FFF" FontSize="13" />
-                                </StackPanel>
+                                    <TextBlock Grid.Column="2" Text="{Binding ElementName=ItemBorder, Path=DataContext.Message}" TextAlignment="Right" TextWrapping="Wrap" Foreground="#FFF" FontSize="14" />
+                                </Grid>
                             </DataTemplate>
                             <DataTemplate x:Key="notifERROR">
-                                <StackPanel Orientation="Horizontal">
-                                    <Rectangle Width="17" Height="17" Fill="White" Margin="0 0 10 0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20" />
+                                        <ColumnDefinition Width="10" />
+                                        <ColumnDefinition Width="*" MaxWidth="275" />
+                                    </Grid.ColumnDefinitions>
+                                    <Rectangle Grid.Column="0" VerticalAlignment="Top" Width="20" Height="20" Fill="White">
                                         <Rectangle.OpacityMask>
                                             <VisualBrush Stretch="Fill" Visual="{StaticResource FailureIcon}" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
-                                    <TextBlock Text="{Binding ElementName=ItemBorder, Path=DataContext.Message}" TextAlignment="Right" TextWrapping="Wrap" Foreground="#FFF" FontSize="13" />
-                                </StackPanel>
+                                    <TextBlock Grid.Column="2" Text="{Binding ElementName=ItemBorder, Path=DataContext.Message}" TextAlignment="Right" TextWrapping="Wrap" Foreground="#FFF" FontSize="14" />
+                                </Grid>
                             </DataTemplate>
                         </ContentControl.Resources>
                         <ContentControl.Style>

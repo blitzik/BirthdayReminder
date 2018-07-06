@@ -159,7 +159,7 @@ namespace prjt.ViewModels
                 Person.Note = Note;
                 Person.Birthday = SelectedDate;
                 _personFacade.UpdatePerson(Person);
-                FlashMessagesManager.DisplayFlashMessage("Záznam byl úspěšně upraven!", Common.FlashMessages.Type.SUCCESS);
+                FlashMessagesManager.DisplayFlashMessage("Záznam byl úspěšně uložen!", Common.FlashMessages.Type.SUCCESS);
             }
             EventAggregator.PublishOnUIThread(new ChangeViewMessage(nameof(BirthdaysViewModel)));
         }
