@@ -1,10 +1,10 @@
 ﻿using Caliburn.Micro;
 using Common.Commands;
 using Common.EventAggregator.Messages;
-using Common.ViewModels;
 using prjt.Domain;
 using prjt.EventAggregator.Messages;
 using prjt.ViewModels;
+using prjt.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,7 +93,7 @@ namespace prjt.ViewModels
             PersonFormViewModel vm = (PersonFormViewModel)ViewModelResolver.Resolve(nameof(PersonFormViewModel));
             vm.Person = Person;
 
-            EventAggregator.BeginPublishOnUIThread(new ChangeViewMessage(vm));
+            EventAggregator.BeginPublishOnUIThread(new ChangeViewMessage<IViewModel>(vm));
         }
 
 

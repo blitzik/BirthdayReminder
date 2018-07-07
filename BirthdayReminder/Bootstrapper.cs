@@ -46,7 +46,7 @@ namespace BirthdayReminder
             _container.Singleton<IWindowManager, WindowManager>();
             _container.Singleton<IEventAggregator, Caliburn.Micro.EventAggregator>();
 
-            _container.Singleton<IViewModelResolver<IViewModel>, ViewModelResolver>();
+            _container.Singleton<IViewModelResolver<prjt.ViewModels.Base.IViewModel>, ViewModelResolver<prjt.ViewModels.Base.IViewModel>>();
             
 
             // default window definition

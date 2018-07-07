@@ -69,6 +69,10 @@
     <Compile Include="Services\Persistence\Root.cs" />
     <Compile Include="Services\Persistence\StorageFactory.cs" />
     <Compile Include="Services\Persistence\StoragePool.cs" />
+    <Compile Include="ViewModels\Base\BaseConductorAllActive.cs" />
+    <Compile Include="ViewModels\Base\BaseConductorOneActive.cs" />
+    <Compile Include="ViewModels\Base\BaseScreen.cs" />
+    <Compile Include="ViewModels\Base\IViewModel.cs" />
     <Compile Include="ViewModels\BirthdaysViewModel.cs" />
     <Compile Include="ViewModels\DeletePersonViewModel.cs" />
     <Compile Include="ViewModels\EmptySelectionViewModel.cs" />

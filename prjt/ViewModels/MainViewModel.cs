@@ -1,10 +1,10 @@
 ﻿using Caliburn.Micro;
 using Common.EventAggregator.Messages;
-using Common.ViewModels;
+using prjt.ViewModels.Base;
 
 namespace prjt.ViewModels
 {
-    public class MainViewModel : BaseConductorOneActive, IHandle<ChangeViewMessage>
+    public class MainViewModel : BaseConductorOneActive, IHandle<ChangeViewMessage<IViewModel>>
     {
 
         public MainViewModel()
@@ -22,7 +22,7 @@ namespace prjt.ViewModels
         }
 
 
-        public void Handle(ChangeViewMessage message)
+        public void Handle(ChangeViewMessage<IViewModel> message)
         {
             if (message.ViewModel != null) {
                 ActivateItem(message.ViewModel);

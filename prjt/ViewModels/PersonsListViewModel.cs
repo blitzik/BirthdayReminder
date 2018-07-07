@@ -9,7 +9,7 @@ using prjt.EventAggregator.Messages;
 using prjt.Domain;
 using Common.Commands;
 using Common.EventAggregator.Messages;
-using Common.ViewModels;
+using prjt.ViewModels.Base;
 
 namespace prjt.ViewModels
 {
@@ -36,9 +36,9 @@ namespace prjt.ViewModels
                 _selectedPerson = value;
                 NotifyOfPropertyChange(() => SelectedPerson);
                 if (value == null) {
-                    EventAggregator.PublishOnUIThread(new BirthdayChangeViewMessage(nameof(EmptySelectionViewModel), prjt.ViewModels.ViewSide.RIGHT));
+                    EventAggregator.PublishOnUIThread(new BirthdayChangeViewMessage<IViewModel>(nameof(EmptySelectionViewModel), prjt.ViewModels.ViewSide.RIGHT));
                 } else {
-                    EventAggregator.PublishOnUIThread(new BirthdayChangeViewMessage(nameof(PersonDetailViewModel), prjt.ViewModels.ViewSide.RIGHT));
+                    EventAggregator.PublishOnUIThread(new BirthdayChangeViewMessage<IViewModel>(nameof(PersonDetailViewModel), prjt.ViewModels.ViewSide.RIGHT));
                     EventAggregator.PublishOnUIThread(new PersonDetailMessage(value));
                 }
             }
@@ -83,7 +83,7 @@ namespace prjt.ViewModels
 
         private void AddPerson()
         {
-            EventAggregator.PublishOnUIThread(new ChangeViewMessage(nameof(PersonFormViewModel)));
+            EventAggregator.PublishOnUIThread(new ChangeViewMessage<IViewModel>(nameof(PersonFormViewModel)));
         }
         
 

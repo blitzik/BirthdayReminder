@@ -2,10 +2,10 @@
 using Common.Commands;
 using Common.EventAggregator.Messages;
 using Common.Validation;
-using Common.ViewModels;
 using prjt.Domain;
 using prjt.EventAggregator.Messages;
 using prjt.Facades;
+using prjt.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -163,13 +163,13 @@ namespace prjt.ViewModels
                 _personFacade.UpdatePerson(Person);
                 FlashMessagesManager.DisplayFlashMessage("Záznam byl úspěšně uložen!", Common.FlashMessages.Type.SUCCESS);
             }
-            EventAggregator.PublishOnUIThread(new ChangeViewMessage(nameof(BirthdaysViewModel)));
+            EventAggregator.PublishOnUIThread(new ChangeViewMessage<IViewModel>(nameof(BirthdaysViewModel)));
         }
 
 
         private void ReturnBack()
         {
-            EventAggregator.PublishOnUIThread(new ChangeViewMessage(nameof(BirthdaysViewModel)));
+            EventAggregator.PublishOnUIThread(new ChangeViewMessage<IViewModel>(nameof(BirthdaysViewModel)));
         }
     }
 }

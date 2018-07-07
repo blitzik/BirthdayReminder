@@ -1,9 +1,9 @@
 ﻿using Caliburn.Micro;
 using Common.Commands;
-using Common.ViewModels;
 using prjt.Domain;
 using prjt.EventAggregator.Messages;
 using prjt.Facades;
+using prjt.ViewModels.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;

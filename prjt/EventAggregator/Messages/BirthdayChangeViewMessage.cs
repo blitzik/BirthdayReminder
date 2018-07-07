@@ -8,7 +8,7 @@ using Common.ViewModels;
 
 namespace prjt.EventAggregator.Messages
 {
-    public class BirthdayChangeViewMessage
+    public class BirthdayChangeViewMessage<T>
     {
         private ViewSide _side;
         public ViewSide Side
@@ -24,8 +24,8 @@ namespace prjt.EventAggregator.Messages
         }
 
 
-        private IViewModel _viewModel;
-        public IViewModel ViewModel
+        private T _viewModel;
+        public T ViewModel
         {
             get { return _viewModel; }
         }
@@ -38,7 +38,7 @@ namespace prjt.EventAggregator.Messages
         }
 
 
-        public BirthdayChangeViewMessage(IViewModel viewModel, ViewSide side)
+        public BirthdayChangeViewMessage(T viewModel, ViewSide side)
         {
             _viewModel = viewModel;
             _side = side;

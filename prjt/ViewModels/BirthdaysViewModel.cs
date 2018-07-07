@@ -5,8 +5,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Common.ViewModels;
 using prjt.EventAggregator.Messages;
+using prjt.ViewModels.Base;
 
 namespace prjt.ViewModels
 {
@@ -17,7 +17,7 @@ namespace prjt.ViewModels
     }
 
 
-    public class BirthdaysViewModel : BaseConductorAllActive, IHandle<BirthdayChangeViewMessage>
+    public class BirthdaysViewModel : BaseConductorAllActive, IHandle<BirthdayChangeViewMessage<IViewModel>>
     {
         private IViewModel _leftSide;
         public IViewModel LeftSide
@@ -61,7 +61,7 @@ namespace prjt.ViewModels
         }
 
 
-        public void Handle(BirthdayChangeViewMessage message)
+        public void Handle(BirthdayChangeViewMessage<IViewModel> message)
         {
             IViewModel vm;
             if (message.ViewModel != null) {
