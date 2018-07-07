@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 using Common.ViewModels;
 using Caliburn.Micro;
 
-namespace prjt.ViewModels
+namespace Common.ViewModels
 {
     public abstract class BaseConductorOneActive : Conductor<IViewModel>.Collection.OneActive, IViewModel, INotifyDataErrorInfo
     {

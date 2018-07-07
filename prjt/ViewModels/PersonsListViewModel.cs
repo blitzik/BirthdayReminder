@@ -9,6 +9,7 @@ using prjt.EventAggregator.Messages;
 using prjt.Domain;
 using Common.Commands;
 using Common.EventAggregator.Messages;
+using Common.ViewModels;
 
 namespace prjt.ViewModels
 {

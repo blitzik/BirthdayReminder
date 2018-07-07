@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using prjt.EventAggregator.Messages;
 using prjt.Domain;
 using prjt.Facades;
+using Common.ViewModels;
 
 namespace prjt.ViewModels
 {

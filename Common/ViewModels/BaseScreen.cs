@@ -9,7 +9,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Common.ViewModels;
 
-namespace prjt.ViewModels
+namespace Common.ViewModels
 {
     public abstract class BaseScreen : Screen, IViewModel, INotifyDataErrorInfo
     {

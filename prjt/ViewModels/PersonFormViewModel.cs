@@ -2,6 +2,7 @@
 using Common.Commands;
 using Common.EventAggregator.Messages;
 using Common.Validation;
+using Common.ViewModels;
 using prjt.Domain;
 using prjt.EventAggregator.Messages;
 using prjt.Facades;

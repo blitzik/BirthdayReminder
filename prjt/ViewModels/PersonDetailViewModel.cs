@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using Common.Commands;
 using Common.EventAggregator.Messages;
+using Common.ViewModels;
 using prjt.Domain;
 using prjt.EventAggregator.Messages;
 using prjt.ViewModels;
