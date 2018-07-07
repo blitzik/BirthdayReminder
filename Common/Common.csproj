@@ -71,6 +71,9 @@
     <Compile Include="Validation\ValidationObject.cs" />
     <Compile Include="ViewModelResolver\IViewModelResolver.cs" />
     <Compile Include="ViewModelResolver\ViewModelResolver.cs" />
+    <Compile Include="ViewModels\BaseConductorAllActive.cs" />
+    <Compile Include="ViewModels\BaseConductorOneActive.cs" />
+    <Compile Include="ViewModels\BaseScreen.cs" />
     <Compile Include="ViewModels\IViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

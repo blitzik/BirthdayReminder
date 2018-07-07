@@ -4,7 +4,7 @@ using System;
 
 namespace Common.ViewModelResolver
 {
-    public class ViewModelResolver : IViewModelResolver<IViewModel>
+    public class ViewModelResolver<T> : IViewModelResolver<T>
     {
         private readonly SimpleContainer _container;
 
@@ -15,12 +15,10 @@ namespace Common.ViewModelResolver
         }
 
 
-        public IViewModel Resolve(string viewModel)
+        public T Resolve(string viewModel)
         {
-            IViewModel vm = _container.GetInstance(Type.GetType(viewModel), viewModel) as IViewModel;
-            if (vm != null) {
-                _container.BuildUp(vm);
-            }
+            T vm = (T)_container.GetInstance(Type.GetType(viewModel), viewModel);
+             _container.BuildUp(vm);
 
             return vm;
         }
