@@ -36,33 +36,34 @@ namespace BirthdayReminder
             };
             ViewLocator.ConfigureTypeMappings(config);
             ViewModelLocator.ConfigureTypeMappings(config);
-
+                        
 
             // -----
 
 
             _container = new SimpleContainer();
+            _container.Instance(_container);
 
             _container.Singleton<IWindowManager, WindowManager>();
             _container.Singleton<IEventAggregator, Caliburn.Micro.EventAggregator>();
 
-            _container.Singleton<IViewModelResolver<prjt.ViewModels.Base.IViewModel>, ViewModelResolver<prjt.ViewModels.Base.IViewModel>>();
+            _container.Singleton<IViewModelResolver, ViewModelResolver>();
             
 
             // default window definition
             _container.Singleton<MainViewModel>();
 
             // window definitions
-            _container.PerRequest<DeletePersonViewModel>(nameof(DeletePersonViewModel));
+            _container.PerRequest<DeletePersonViewModel>(typeof(DeletePersonViewModel).FullName);
 
             // View Model definitions
-            _container.Singleton<BirthdaysViewModel>(nameof(BirthdaysViewModel));
-            _container.PerRequest<PersonFormViewModel>(nameof(PersonFormViewModel));
-            _container.Singleton<PersonDetailViewModel>(nameof(PersonDetailViewModel));
-            _container.Singleton<PersonsOverviewViewModel>(nameof(PersonsOverviewViewModel));
-            _container.Singleton<PersonsListViewModel>(nameof(PersonsListViewModel));
-            _container.Singleton<PersonsLoadingScreenViewModel>(nameof(PersonsLoadingScreenViewModel));
-            _container.Singleton<EmptySelectionViewModel>(nameof(EmptySelectionViewModel));
+            _container.Singleton<BirthdaysViewModel>(typeof(BirthdaysViewModel).FullName);
+            _container.PerRequest<PersonFormViewModel>(typeof(PersonFormViewModel).FullName);
+            _container.Singleton<PersonDetailViewModel>(typeof(PersonDetailViewModel).FullName);
+            _container.Singleton<PersonsOverviewViewModel>(typeof(PersonsOverviewViewModel).FullName);
+            _container.Singleton<PersonsListViewModel>(typeof(PersonsListViewModel).FullName);
+            _container.Singleton<PersonsLoadingScreenViewModel>(typeof(PersonsLoadingScreenViewModel).FullName);
+            _container.Singleton<EmptySelectionViewModel>(typeof(EmptySelectionViewModel).FullName);
             
 
             // Facades
@@ -74,9 +75,6 @@ namespace BirthdayReminder
             _container.Singleton<prjt.Services.Persistence.StorageFactory>();
             _container.Singleton<StoragePool>();
             _container.Singleton<IFlashMessagesManager, FlashMessagesManager>();
-
-
-            _container.Instance(_container);
         }
 
 

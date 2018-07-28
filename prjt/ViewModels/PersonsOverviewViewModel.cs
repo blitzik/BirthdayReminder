@@ -22,7 +22,7 @@ namespace prjt.ViewModels
 
     public class PersonsOverviewViewModel : BaseConductorOneActive, IHandle<PersonCreatedMessage>
     {
-        private ObservableCollection<Person> _persons;
+        /*private ObservableCollection<Person> _persons;
         public ObservableCollection<Person> Persons
         {
             get { return _persons; }
@@ -31,7 +31,7 @@ namespace prjt.ViewModels
                 _persons = value;
                 NotifyOfPropertyChange(() => Persons);
             }
-        }
+        }*/
 
 
         private Dictionary<FilterOptions, string> _filterOptions;
@@ -85,7 +85,7 @@ namespace prjt.ViewModels
 
             EventAggregator.Subscribe(this);
 
-            _personsListViewModel = (PersonsListViewModel)ViewModelResolver.Resolve(nameof(PersonsListViewModel));
+            _personsListViewModel = ViewModelResolver.Resolve<PersonsListViewModel>();
 
             _filterOptions = new Dictionary<FilterOptions, string>();
             _filterOptions.Add(ViewModels.FilterOptions.ALL, "Všechny záznamy");
@@ -108,7 +108,7 @@ namespace prjt.ViewModels
         {
             IsFilterEnabled = false;
             _personsListViewModel.SelectedPerson = null;
-            ActivateItem(nameof(PersonsLoadingScreenViewModel));
+            ActivateItem(GetViewModel<PersonsLoadingScreenViewModel>());
             //await Task.Delay(5000);
             ObservableCollection<Person> persons = new ObservableCollection<Person>();
             Task t = Task.Factory.StartNew(() => {
@@ -131,7 +131,7 @@ namespace prjt.ViewModels
                 }
             });
             await t;
-            ActivateItem(nameof(PersonsListViewModel));
+            ActivateItem(GetViewModel<PersonsListViewModel>());
             IsFilterEnabled = true;
         }
     }

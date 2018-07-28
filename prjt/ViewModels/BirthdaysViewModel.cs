@@ -17,7 +17,7 @@ namespace prjt.ViewModels
     }
 
 
-    public class BirthdaysViewModel : BaseConductorAllActive, IHandle<BirthdayChangeViewMessage<IViewModel>>
+    public class BirthdaysViewModel : BaseConductorAllActive, IHandle<IBirthdayChangeViewMessage<IViewModel>>
     {
         private IViewModel _leftSide;
         public IViewModel LeftSide
@@ -54,21 +54,22 @@ namespace prjt.ViewModels
 
             EventAggregator.Subscribe(this);
 
-            ActivateItem(ViewModelResolver.Resolve(nameof(PersonDetailViewModel)));
+            ActivateItem(ViewModelResolver.Resolve<PersonDetailViewModel>());
 
-            LeftSide = ActivateItem(nameof(PersonsOverviewViewModel));
-            RightSide = ActivateItem(nameof(EmptySelectionViewModel));
+            LeftSide = ActivateItem<PersonsOverviewViewModel>();
+            RightSide = ActivateItem<EmptySelectionViewModel>();
         }
 
 
-        public void Handle(BirthdayChangeViewMessage<IViewModel> message)
+        public void Handle(IBirthdayChangeViewMessage<IViewModel> message)
         {
             IViewModel vm;
             if (message.ViewModel != null) {
                 vm = message.ViewModel;
                 ActivateItem(vm);
             } else {
-                vm = ActivateItem(message.ViewModelName);
+                vm = GetViewModel(message.Type);
+                ActivateItem(vm);
             }
 
             switch (message.Side) {

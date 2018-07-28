@@ -163,13 +163,13 @@ namespace prjt.ViewModels
                 _personFacade.UpdatePerson(Person);
                 FlashMessagesManager.DisplayFlashMessage("Záznam byl úspěšně uložen!", Common.FlashMessages.Type.SUCCESS);
             }
-            EventAggregator.PublishOnUIThread(new ChangeViewMessage<IViewModel>(nameof(BirthdaysViewModel)));
+            EventAggregator.PublishOnUIThread(new ChangeViewMessage<BirthdaysViewModel>());
         }
 
 
         private void ReturnBack()
         {
-            EventAggregator.PublishOnUIThread(new ChangeViewMessage<IViewModel>(nameof(BirthdaysViewModel)));
+            EventAggregator.PublishOnUIThread(new ChangeViewMessage<BirthdaysViewModel>());
         }
     }
 }

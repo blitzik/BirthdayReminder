@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace prjt.ViewModels.Base
 {
-    public interface IViewModel
+    public interface IViewModel : Common.ViewModels.IViewModel
     {
     }
 }

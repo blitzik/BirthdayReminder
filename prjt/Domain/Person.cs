@@ -85,11 +85,22 @@ namespace prjt.Domain
         }
 
 
+        [NonSerialized()]
+        private bool _isMarkedForDelete;
+        public bool IsMarkedForDelete
+        {
+            get { return _isMarkedForDelete; }
+            set { Set(ref _isMarkedForDelete, value); }
+        }
+
+
         public Person(string firstName, string lastName, DateTime birthday)
         {
             _firstName = firstName;
             _lastName = lastName;
             _birthday = birthday;
+
+            IsMarkedForDelete = false;
 
             UpdateIndexes();
         }

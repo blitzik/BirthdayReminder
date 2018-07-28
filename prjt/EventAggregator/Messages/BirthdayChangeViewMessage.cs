@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using prjt.ViewModels;
-using Common.ViewModels;
+using prjt.ViewModels.Base;
 
 namespace prjt.EventAggregator.Messages
 {
-    public class BirthdayChangeViewMessage<T>
+    public class BirthdayChangeViewMessage<T> : IBirthdayChangeViewMessage<IViewModel> where T : IViewModel
     {
         private ViewSide _side;
         public ViewSide Side
@@ -17,23 +17,23 @@ namespace prjt.EventAggregator.Messages
         }
 
 
-        private string _viewModelName;
-        public string ViewModelName
+        protected Type _type;
+        public Type Type
         {
-            get { return _viewModelName; }
+            get { return _type; }
         }
 
 
-        private T _viewModel;
-        public T ViewModel
+        protected IViewModel _viewModel;
+        public IViewModel ViewModel
         {
             get { return _viewModel; }
         }
 
 
-        public BirthdayChangeViewMessage(string viewName, ViewSide side)
+        public BirthdayChangeViewMessage(ViewSide side)
         {
-            _viewModelName = viewName;
+            _type = typeof(T);
             _side = side;
         }
 

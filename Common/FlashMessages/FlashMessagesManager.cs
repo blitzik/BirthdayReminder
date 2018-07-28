@@ -12,76 +12,65 @@ namespace Common.FlashMessages
 {
     public class FlashMessagesManager : PropertyChangedBase, IFlashMessagesManager
     {
-        private ObservableCollection<FlashMessage> _flashMessages;
-        public ObservableCollection<FlashMessage> FlashMessages
+        private ObservableCollection<FlashMessageDecorator> _flashMessages;
+        public ObservableCollection<FlashMessageDecorator> FlashMessages
         {
             get { return _flashMessages; }
         }
 
 
-        private bool _isEmpty;
-        public bool IsEmpty
-        {
-            get { return _isEmpty; }
-            set
-            {
-                _isEmpty = value;
-                NotifyOfPropertyChange(() => IsEmpty);
-            }
-        }
-
-
         private DispatcherTimer _dispatcherTimer;
-        private FlashMessagesCollection _sourceCollection;
 
         public FlashMessagesManager()
         {
-            _sourceCollection = new FlashMessagesCollection();
-            _dispatcherTimer = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(300) };
-            _dispatcherTimer.Tick += (o, e) => {
-                if (_sourceCollection.IsEmpty) {
-                    _dispatcherTimer.Stop();
-                    return;
-                }
-                _flashMessages.Add(_sourceCollection.CutFirst());
-            };
-            _flashMessages = new ObservableCollection<FlashMessage>();
-            IsEmpty = true;
+            _dispatcherTimer = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(100) };
+            _dispatcherTimer.Tick += OnTick;
+
+            _flashMessages = new ObservableCollection<FlashMessageDecorator>();
         }
 
 
-        public void DisplayFlashMessages()
+        private void OnTick(object sender, EventArgs e)
         {
-            _dispatcherTimer.Start();
-        }
-
-
-        public IFlashMessagesManager AddFlashMessage(string message, Type type)
-        {
-            if (_dispatcherTimer.IsEnabled) {
-                _dispatcherTimer.Stop();                
-                ClearFlashMessages();
+            if (FlashMessages.Count < 1) {
+                _dispatcherTimer.Stop();
+                return;
             }
-            _sourceCollection.Add(message, type);
-            IsEmpty = false;
 
-            return this;
+            long now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            var disposableFlashMessages = FlashMessages.Where(x => x.DisposeAt <= now).ToList();
+            foreach (var fmd in disposableFlashMessages) {
+                if (fmd.CanBeDisposed == false) {
+                    fmd.MarkFlashMessageAsDisposable();
+                } else {
+                    if (fmd.CanBeRemoved(now)) {
+                        FlashMessages.Remove(fmd);
+                    }
+                }
+            }
         }
 
 
-        public void DisplayFlashMessage(string message, Type type)
+        public void DisplayFlashMessage(string message, Type type, TimeSpan? lifespan = null)
         {
-            ClearFlashMessages();
-            IsEmpty = false;
-            _flashMessages.Add(new FlashMessage(message, type));
+            var d = new FlashMessageDecorator(new FlashMessage(message, type, lifespan));
+            FlashMessages.Add(d);
+
+            if (!_dispatcherTimer.IsEnabled) {
+                _dispatcherTimer.Start();
+            }
         }
 
 
         public void ClearFlashMessages()
         {
-            _sourceCollection.Clear();
-            _flashMessages.Clear();
-            IsEmpty = true;
+            _dispatcherTimer.Stop();
+
+            foreach (var fmd in FlashMessages) {
+                fmd.MarkFlashMessageAsDisposable();
+            }
+
+            _dispatcherTimer.Start();
         }
     }
 }

@@ -1,10 +1,13 @@
 ﻿using Caliburn.Micro;
 using Common.EventAggregator.Messages;
+using prjt.EventAggregator.Messages;
 using prjt.ViewModels.Base;
 
 namespace prjt.ViewModels
 {
-    public class MainViewModel : BaseConductorOneActive, IHandle<ChangeViewMessage<IViewModel>>
+    public class MainViewModel :
+        BaseConductorOneActive,
+        IHandle<IChangeViewMessage<IViewModel>>
     {
 
         public MainViewModel()
@@ -18,17 +21,18 @@ namespace prjt.ViewModels
 
             EventAggregator.Subscribe(this);
 
-            ActivateItem(nameof(BirthdaysViewModel));
+            Handle(new ChangeViewMessage<BirthdaysViewModel>());
         }
 
 
-        public void Handle(ChangeViewMessage<IViewModel> message)
+        public void Handle(IChangeViewMessage<IViewModel> message)
         {
             if (message.ViewModel != null) {
                 ActivateItem(message.ViewModel);
             } else {
-                ActivateItem(message.ViewModelName);
+                ActivateItem(GetViewModel(message.Type));
             }
+            message.Apply(ActiveItem);
         }
     }
 }

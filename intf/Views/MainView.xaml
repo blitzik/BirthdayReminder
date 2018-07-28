@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:intf.Views"
+        xmlns:b="clr-namespace:Common.Behaviors;assembly=Common"
         xmlns:flashMessages="clr-namespace:intf.FlashMessages"
         mc:Ignorable="d"
         Title="Upomínač narozenin" Width="600" MaxWidth="600" Height="425" ResizeMode="NoResize">
@@ -17,7 +18,13 @@
         </Grid.ColumnDefinitions>
 
         <Border Grid.Row="0" Padding="10">
-            <ContentControl x:Name="ActiveItem"/>
+            <ContentControl x:Name="ActiveItem">
+                <b:ContentControlExtension.Storyboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From=".5" To="1" Duration="0:0:.2" />
+                    </Storyboard>
+                </b:ContentControlExtension.Storyboard>
+            </ContentControl>
         </Border>
 
         <flashMessages:FlashMessages />

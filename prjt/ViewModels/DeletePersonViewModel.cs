@@ -58,9 +58,8 @@ namespace prjt.ViewModels
 
         private void DeleteRecord()
         {
+            Person.IsMarkedForDelete = true;
             _personFacade.DeletePerson(Person);
-            EventAggregator.PublishOnUIThread(new PersonRemovedMessage(Person));
-
             FlashMessagesManager.DisplayFlashMessage("Záznam byl úspěšně odstraněn!", Common.FlashMessages.Type.SUCCESS);
 
             TryClose();

@@ -10,7 +10,7 @@ using Common.FlashMessages;
 
 namespace Common.ViewModels
 {
-    public abstract class BaseConductorAllActive<P> : Conductor<P>.Collection.AllActive, IViewModel, INotifyDataErrorInfo where P : class
+    public abstract class BaseConductorAllActive<P> : Conductor<P>.Collection.AllActive, IViewModel, INotifyDataErrorInfo where P : class, IViewModel
     {
         // property injection
         private IEventAggregator _eventAggregator;
@@ -22,8 +22,8 @@ namespace Common.ViewModels
 
 
         // property injection
-        private IViewModelResolver<P> _viewModelResolver;
-        public IViewModelResolver<P> ViewModelResolver
+        private IViewModelResolver _viewModelResolver;
+        public IViewModelResolver ViewModelResolver
         {
             get { return _viewModelResolver; }
             set { _viewModelResolver = value; }
@@ -39,18 +39,18 @@ namespace Common.ViewModels
         }
 
 
-        protected P ActivateItem(string viewModelName)
+        protected VM ActivateItem<VM>() where VM : P
         {
-            P vm = GetViewModel(viewModelName);
+            VM vm = GetViewModel<VM>();
             ActivateItem(vm);
 
             return vm;
         }
 
 
-        protected P GetViewModel(string viewModelName)
+        protected VM GetViewModel<VM>() where VM : P
         {
-            P vm = ViewModelResolver.Resolve(viewModelName);
+            VM vm = ViewModelResolver.Resolve<VM>();
             if (vm == null) {
                 throw new Exception("Requested ViewModel does not Exist!");
             }
@@ -59,10 +59,39 @@ namespace Common.ViewModels
         }
 
 
+        protected P GetViewModel(System.Type viewModel)
+        {
+            P vm = ViewModelResolver.Resolve<P>(viewModel);
+            if (vm == null) {
+                throw new Exception("Requested ViewModel does not Exist!");
+            }
+
+            return vm;
+        }
+
+
+        protected VM PrepareViewModel<VM>() where VM : IViewModel, new()
+        {
+            VM vm = Activator.CreateInstance<VM>();
+            ViewModelResolver.BuildUp(vm);
+
+            return vm;
+        }
+
+
+        protected VM PrepareViewModel<VM>(Func<VM> instantiation) where VM : IViewModel
+        {
+            VM vm = instantiation.Invoke();
+            ViewModelResolver.BuildUp(vm);
+
+            return vm;
+        }
+
+
         protected override void OnInitialize()
         {
             base.OnInitialize();
-            
+
             InitializeValidation();
         }
 

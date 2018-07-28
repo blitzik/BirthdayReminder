@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace prjt.ViewModels.Base
 {
-    public class BaseScreen : Common.ViewModels.BaseScreen<IViewModel>, IViewModel
+    public class BaseScreen : Common.ViewModels.BaseScreen, IViewModel
     {
     }
 }

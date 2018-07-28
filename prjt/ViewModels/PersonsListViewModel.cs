@@ -13,7 +13,7 @@ using prjt.ViewModels.Base;
 
 namespace prjt.ViewModels
 {
-    public class PersonsListViewModel : BaseScreen, IHandle<PersonRemovedMessage>
+    public class PersonsListViewModel : BaseScreen
     {
         private ObservableCollection<Person> _persons;
         public ObservableCollection<Person> Persons
@@ -36,9 +36,9 @@ namespace prjt.ViewModels
                 _selectedPerson = value;
                 NotifyOfPropertyChange(() => SelectedPerson);
                 if (value == null) {
-                    EventAggregator.PublishOnUIThread(new BirthdayChangeViewMessage<IViewModel>(nameof(EmptySelectionViewModel), prjt.ViewModels.ViewSide.RIGHT));
+                    EventAggregator.PublishOnUIThread(new BirthdayChangeViewMessage<EmptySelectionViewModel>(ViewSide.RIGHT));
                 } else {
-                    EventAggregator.PublishOnUIThread(new BirthdayChangeViewMessage<IViewModel>(nameof(PersonDetailViewModel), prjt.ViewModels.ViewSide.RIGHT));
+                    EventAggregator.PublishOnUIThread(new BirthdayChangeViewMessage<PersonDetailViewModel>(ViewSide.RIGHT));
                     EventAggregator.PublishOnUIThread(new PersonDetailMessage(value));
                 }
             }
@@ -58,6 +58,19 @@ namespace prjt.ViewModels
         }
 
 
+        private DelegateCommand<Person> _removePersonCommand;
+        public DelegateCommand<Person> RemovePersonCommand
+        {
+            get
+            {
+                if (_removePersonCommand == null) {
+                    _removePersonCommand = new DelegateCommand<Person>(p => RemovePerson(p));
+                }
+                return _removePersonCommand;
+            }
+        }
+
+
         public PersonsListViewModel()
         {
         }
@@ -71,21 +84,22 @@ namespace prjt.ViewModels
         }
 
 
-        public void Handle(PersonRemovedMessage message)
-        {
-            Persons.Remove(message.Person);
-            SelectedPerson = Persons.FirstOrDefault();
-        }
-
-
         // -----
 
 
         private void AddPerson()
         {
-            EventAggregator.PublishOnUIThread(new ChangeViewMessage<IViewModel>(nameof(PersonFormViewModel)));
+            EventAggregator.PublishOnUIThread(new ChangeViewMessage<PersonFormViewModel>());
         }
-        
+
+
+        private void RemovePerson(Person p)
+        {
+            Persons.Remove(p);
+            SelectedPerson = Persons.Count > 0 ? Persons.First() : null;
+        }
+
+
 
     }
 }
