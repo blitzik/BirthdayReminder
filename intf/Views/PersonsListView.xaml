@@ -26,7 +26,7 @@
         <ListView Name="ListViewOfPersons" Grid.Row="0" ItemsSource="{Binding Persons}" SelectionMode="Single" SelectedItem="{Binding SelectedPerson, UpdateSourceTrigger=PropertyChanged}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
-                    <Setter Property="RenderTransform">
+                    <Setter Property="LayoutTransform">
                         <Setter.Value>
                             <ScaleTransform />
                         </Setter.Value>
@@ -34,7 +34,7 @@
                     <Setter Property="b:AnimatedItemRemovalBehavior.Storyboard">
                         <Setter.Value>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" From="1" To="0" Duration="0:0:.2" />
+                                <DoubleAnimation Storyboard.TargetProperty="LayoutTransform.ScaleY" From="1" To="0" Duration="0:0:.2" />
                             </Storyboard>
                         </Setter.Value>
                     </Setter>
