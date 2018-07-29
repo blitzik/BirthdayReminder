@@ -21,7 +21,7 @@
             <ContentControl x:Name="ActiveItem">
                 <b:ContentControlExtension.Storyboard>
                     <Storyboard>
-                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From=".5" To="1" Duration="0:0:.2" />
+                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From=".5" To="1" Duration="0:0:.15" />
                     </Storyboard>
                 </b:ContentControlExtension.Storyboard>
             </ContentControl>
