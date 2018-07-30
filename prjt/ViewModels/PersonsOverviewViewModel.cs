@@ -22,18 +22,6 @@ namespace prjt.ViewModels
 
     public class PersonsOverviewViewModel : BaseConductorOneActive, IHandle<PersonCreatedMessage>
     {
-        /*private ObservableCollection<Person> _persons;
-        public ObservableCollection<Person> Persons
-        {
-            get { return _persons; }
-            set
-            {
-                _persons = value;
-                NotifyOfPropertyChange(() => Persons);
-            }
-        }*/
-
-
         private Dictionary<FilterOptions, string> _filterOptions;
         public Dictionary<FilterOptions, string> FilterOptions
         {

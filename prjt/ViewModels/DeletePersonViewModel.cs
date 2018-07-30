@@ -48,20 +48,14 @@ namespace prjt.ViewModels
         }
 
 
-        private PersonFacade _personFacade;
-
-        public DeletePersonViewModel(PersonFacade personFacade)
+        public DeletePersonViewModel()
         {
-            _personFacade = personFacade;
         }
 
 
         private void DeleteRecord()
         {
             Person.IsMarkedForDelete = true;
-            _personFacade.DeletePerson(Person);
-            FlashMessagesManager.DisplayFlashMessage("Záznam byl úspěšně odstraněn!", Common.FlashMessages.Type.SUCCESS);
-
             TryClose();
         }
 

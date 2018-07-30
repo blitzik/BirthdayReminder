@@ -10,6 +10,7 @@ using prjt.Domain;
 using Common.Commands;
 using Common.EventAggregator.Messages;
 using prjt.ViewModels.Base;
+using prjt.Facades;
 
 namespace prjt.ViewModels
 {
@@ -71,8 +72,11 @@ namespace prjt.ViewModels
         }
 
 
-        public PersonsListViewModel()
+        private PersonFacade _personFacade;
+
+        public PersonsListViewModel(PersonFacade personFacade)
         {
+            _personFacade = personFacade;
         }
 
 
@@ -97,6 +101,9 @@ namespace prjt.ViewModels
         {
             Persons.Remove(p);
             SelectedPerson = Persons.Count > 0 ? Persons.First() : null;
+
+            _personFacade.DeletePerson(p);
+            FlashMessagesManager.DisplayFlashMessage("Záznam byl úspěšně odstraněn!", Common.FlashMessages.Type.SUCCESS);
         }
 
 
