@@ -137,12 +137,12 @@ namespace prjt.ViewModels
 
             Validation.AddRuleSet(
                 nameof(FirstName),
-                new RuleSet<string>().AddRule("Vyplňte prosím pole Jméno", Severity.INFO, x => { return isNull(x); })
+                new RuleSet<string>().AddRule(x => { return isNull(x); }, "Vyplňte prosím pole Jméno", Severity.INFO)
             );
 
             Validation.AddRuleSet(
                 nameof(LastName),
-                new RuleSet<string>().AddRule("Vyplňte prosím pole Příjmení", Severity.INFO, x => { return isNull(x); })
+                new RuleSet<string>().AddRule(x => { return isNull(x); }, "Vyplňte prosím pole Příjmení", Severity.INFO)
             );
         }
 
