@@ -57,13 +57,13 @@ namespace BirthdayReminder
             _container.PerRequest<DeletePersonViewModel>(typeof(DeletePersonViewModel).FullName);
 
             // View Model definitions
-            _container.Singleton<BirthdaysViewModel>(typeof(BirthdaysViewModel).FullName);
-            _container.PerRequest<PersonFormViewModel>(typeof(PersonFormViewModel).FullName);
-            _container.Singleton<PersonDetailViewModel>(typeof(PersonDetailViewModel).FullName);
-            _container.Singleton<PersonsOverviewViewModel>(typeof(PersonsOverviewViewModel).FullName);
-            _container.Singleton<PersonsListViewModel>(typeof(PersonsListViewModel).FullName);
-            _container.Singleton<PersonsLoadingScreenViewModel>(typeof(PersonsLoadingScreenViewModel).FullName);
-            _container.Singleton<EmptySelectionViewModel>(typeof(EmptySelectionViewModel).FullName);
+            _container.Singleton<BirthdaysViewModel>();
+            _container.PerRequest<PersonFormViewModel>();
+            _container.Singleton<PersonDetailViewModel>();
+            _container.Singleton<PersonsOverviewViewModel>();
+            _container.Singleton<PersonsListViewModel>();
+            _container.Singleton<PersonsLoadingScreenViewModel>();
+            _container.Singleton<EmptySelectionViewModel>();
             
 
             // Facades

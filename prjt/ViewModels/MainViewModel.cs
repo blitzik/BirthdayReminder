@@ -27,12 +27,18 @@ namespace prjt.ViewModels
 
         public void Handle(IChangeViewMessage<IViewModel> message)
         {
+            IViewModel vm;
             if (message.ViewModel != null) {
-                ActivateItem(message.ViewModel);
+                vm = message.ViewModel;
             } else {
-                ActivateItem(GetViewModel(message.Type));
+                vm = GetViewModel(message.Type);
             }
-            message.Apply(ActiveItem);
+
+            if (vm == ActiveItem) {
+                return;
+            }
+            message.Apply(vm);
+            ActivateItem(vm);
         }
     }
 }
