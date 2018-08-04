@@ -54,7 +54,7 @@ namespace BirthdayReminder
             _container.Singleton<MainViewModel>();
 
             // window definitions
-            _container.PerRequest<DeletePersonViewModel>(typeof(DeletePersonViewModel).FullName);
+            _container.PerRequest<DeletePersonViewModel>();
 
             // View Model definitions
             _container.Singleton<BirthdaysViewModel>();
