@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using Common.FlashMessages;
+using Common.Overlay;
 using Common.Validation;
 using Common.ViewModelResolver;
 using Common.ViewModels;
@@ -44,17 +45,20 @@ namespace BirthdayReminder
             _container = new SimpleContainer();
             _container.Instance(_container);
 
+            // Common
             _container.Singleton<IWindowManager, WindowManager>();
-            _container.Singleton<IEventAggregator, Caliburn.Micro.EventAggregator>();
-
+            _container.Singleton<IEventAggregator, EventAggregator>();
             _container.Singleton<IViewModelResolver, ViewModelResolver>();
-            
+            _container.Singleton<IFlashMessagesManager, FlashMessagesManager>();
+            _container.PerRequest<IValidationObject, ValidationObject>();
+            _container.Singleton<IOverlay, Overlay>();
+
+            // services
+            _container.Singleton<prjt.Services.Persistence.StorageFactory>();
+            _container.Singleton<StoragePool>();
 
             // default window definition
             _container.Singleton<MainViewModel>();
-
-            // window definitions
-            _container.PerRequest<DeletePersonViewModel>();
 
             // View Model definitions
             _container.Singleton<BirthdaysViewModel>();
@@ -63,18 +67,10 @@ namespace BirthdayReminder
             _container.Singleton<PersonsOverviewViewModel>();
             _container.Singleton<PersonsListViewModel>();
             _container.Singleton<PersonsLoadingScreenViewModel>();
-            _container.Singleton<EmptySelectionViewModel>();
-            
+            _container.Singleton<EmptySelectionViewModel>();            
 
             // Facades
             _container.Singleton<PersonFacade>();
-
-
-            // services
-            _container.PerRequest<IValidationObject, ValidationObject>();
-            _container.Singleton<prjt.Services.Persistence.StorageFactory>();
-            _container.Singleton<StoragePool>();
-            _container.Singleton<IFlashMessagesManager, FlashMessagesManager>();
         }
 
 

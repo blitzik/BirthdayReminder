@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace intf.Views
 {
     /// <summary>
-    /// Interaction logic for DeletePersonView.xaml
+    /// Interaction logic for ConfirmationView.xaml
     /// </summary>
-    public partial class DeletePersonView : Window
+    public partial class ConfirmationView : UserControl
     {
-        public DeletePersonView()
+        public ConfirmationView()
         {
             InitializeComponent();
         }

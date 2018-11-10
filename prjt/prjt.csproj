@@ -42,6 +42,7 @@
     <Reference Include="PerstNetGenerics">
       <HintPath>..\..\..\Perst4.NET\bin\PerstNetGenerics.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -56,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\Int2DaysToBirthdayConverter.cs" />
     <Compile Include="Domain\Person.cs" />
     <Compile Include="EventAggregator\Messages\BasePersonMessage.cs" />
@@ -75,7 +77,7 @@
     <Compile Include="ViewModels\Base\BaseScreen.cs" />
     <Compile Include="ViewModels\Base\IViewModel.cs" />
     <Compile Include="ViewModels\BirthdaysViewModel.cs" />
-    <Compile Include="ViewModels\DeletePersonViewModel.cs" />
+    <Compile Include="ViewModels\ConfirmationViewModel.cs" />
     <Compile Include="ViewModels\EmptySelectionViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PersonDetailViewModel.cs" />

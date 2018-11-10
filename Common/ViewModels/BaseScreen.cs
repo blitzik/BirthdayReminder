@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Common.ViewModels;
+using Common.Overlay;
 
 namespace Common.ViewModels
 {
@@ -40,6 +41,15 @@ namespace Common.ViewModels
         }
 
 
+        // property injection
+        private IOverlay _overlay;
+        public IOverlay Overlay
+        {
+            get { return _overlay; }
+            set { _overlay = value; }
+        }
+
+
         protected virtual VM GetViewModel<VM>() where VM : IViewModel
         {
             VM viewModel = _viewModelResolver.Resolve<VM>();
@@ -50,7 +60,11 @@ namespace Common.ViewModels
             return viewModel;
         }
 
-
+        /// <summary>
+        /// Instantiation of viewmodels with parameterless constructor
+        /// </summary>
+        /// <typeparam name="VM"></typeparam>
+        /// <returns></returns>
         protected VM PrepareViewModel<VM>() where VM : IViewModel, new()
         {
             VM vm = Activator.CreateInstance<VM>();
@@ -60,6 +74,12 @@ namespace Common.ViewModels
         }
 
 
+        /// <summary>
+        /// Custom instantiation of viewmodels
+        /// </summary>
+        /// <typeparam name="VM"></typeparam>
+        /// <param name="instantiation"></param>
+        /// <returns></returns>
         protected VM PrepareViewModel<VM>(Func<VM> instantiation) where VM : IViewModel
         {
             VM vm = instantiation.Invoke();

@@ -81,10 +81,15 @@ namespace prjt.ViewModels
 
         private void DisplayRecordDeletion()
         {
-            DeletePersonViewModel dp = ViewModelResolver.Resolve<DeletePersonViewModel>();
-            dp.Person = Person;
+            ConfirmationViewModel vm = PrepareViewModel<ConfirmationViewModel>();
+            vm.Text = "Skutečně si přejete odstranit vybraný záznam?";
+            vm.OnYesClicked += () => {
+                Person.IsMarkedForDelete = true;
+                Overlay.HideOverlay();
+            };
+            vm.OnCancelClicked += () => { Overlay.HideOverlay(); };
 
-            _windowManager.ShowDialog(dp);
+            Overlay.DisplayOverlay(vm);
         }
 
 

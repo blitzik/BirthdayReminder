@@ -6,9 +6,18 @@
         xmlns:local="clr-namespace:intf.Views"
         xmlns:b="clr-namespace:Common.Behaviors;assembly=Common"
         xmlns:flashMessages="clr-namespace:intf.FlashMessages"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:c="http://www.caliburnproject.org"
+        xmlns:converters="clr-namespace:prjt.Converters;assembly=prjt"
         mc:Ignorable="d"
         Title="Upomínač narozenin" Width="600" MaxWidth="600" Height="425" ResizeMode="NoResize">
 
+
+    <Window.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Window.Resources>
+    
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -27,7 +36,36 @@
             </ContentControl>
         </Border>
 
-        <flashMessages:FlashMessages />
+
+        <!-- Overlay -->
+        <Grid b:AnimateableVisibility.Visibility="{Binding Overlay.IsActive, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=reversed}"
+              b:AnimateableVisibility.Duration="175"
+              Grid.Row="0"
+              Grid.RowSpan="2"
+              Grid.Column="0"
+              Panel.ZIndex="1000"
+              Grid.ColumnSpan="2">
+            <Border>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                        <i:InvokeCommandAction Command="{Binding HideOverlayCommand}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Border.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <SolidColorBrush Color="#000" Opacity=".35" />
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Border.Resources>
+            </Border>
+            <ContentControl VerticalAlignment="Center" HorizontalAlignment="Center" c:View.Model="{Binding Overlay.Token.Content, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+
+
+        <flashMessages:FlashMessages Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
     </Grid>
 
 </Window>

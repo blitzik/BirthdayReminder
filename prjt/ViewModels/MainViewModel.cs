@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Common.Commands;
 using Common.EventAggregator.Messages;
 using prjt.EventAggregator.Messages;
 using prjt.ViewModels.Base;
@@ -9,6 +10,22 @@ namespace prjt.ViewModels
         BaseConductorOneActive,
         IHandle<IChangeViewMessage<IViewModel>>
     {
+        private DelegateCommand<object> _hideOverlayCommand;
+        public DelegateCommand<object> HideOverlayCommand
+        {
+            get
+            {
+                if (_hideOverlayCommand == null) {
+                    _hideOverlayCommand = new DelegateCommand<object>(p => {
+                        if (!Overlay.Token.IsMandatory) {
+                            Overlay.HideOverlay();
+                        }
+                    });
+                }
+                return _hideOverlayCommand;
+            }
+        }
+
 
         public MainViewModel()
         {
